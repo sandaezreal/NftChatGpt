@@ -5,10 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { fetchUsers } from './app/features/users/usersSlice'
 import { store } from '../../my-app/src/app/store/store'
-import { worker } from './api/server'
+//import { worker } from './api/server'
 async function start() {
 
-await worker.start({ onUnhandledRequest: 'bypass' })
+//await worker.start({ onUnhandledRequest: 'bypass' })
 
 store.dispatch(fetchUsers())
 const root = ReactDOM.createRoot(
