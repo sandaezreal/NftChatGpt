@@ -1,0 +1,273 @@
+
+import * as ReactDOM from 'react-dom';
+import React, { FC, useState } from 'react';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
+
+// Redux:
+const ADD = 'ADD';
+const EDIT = 'EDIT';
+const DELETE = 'DELETE';
+
+interface AddMessageAction {
+  type: typeof ADD;
+  message: string;
+}
+
+interface EditMessageAction {
+  type: typeof EDIT;
+  index: number;
+  message: string;
+}
+
+interface DeleteMessageAction {
+  type: typeof DELETE;
+  index: number;
+}
+
+type MessageAction = AddMessageAction | EditMessageAction | DeleteMessageAction;
+
+const addMessage = (message: string): AddMessageAction => {
+  return {
+    type: ADD,
+    message: message
+  }
+};
+
+const editMessage = (index: number, message: string): EditMessageAction => {
+  return {
+    type: EDIT,
+    index: index,
+    message: message
+  }
+};
+
+const deleteMessage = (index: number): DeleteMessageAction => {
+  return {
+    type: DELETE,
+    index: index
+  }
+};
+
+interface MessageState {
+  messages: string[];
+}
+
+const messageReducer = (state: MessageState = { messages: [] }, action: MessageAction): MessageState => {
+  let copyState = [...state.messages];
+  switch (action.type) {
+    case ADD:
+      return { messages: [...state.messages, action.message] };
+    case EDIT:
+      copyState[action.index] = action.message;
+      return { messages: copyState };
+    case DELETE:
+      copyState.splice(action.index, 1)
+      return { messages: copyState };
+    default:
+      return state;
+  }
+};
+
+const store = createStore(messageReducer);
+
+// React:
+interface PresentationalProps {
+  messages: string[];
+  submitNewMessage: (message: string) => void;
+  editExistingMessage: (index: number, message: string) => void;
+  deleteExistingMessage: (index: number) => void;
+}
+
+const Presentational: FC<PresentationalProps> = (props) => {
+  const [input, setInput] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      submitMessage();
+    }
+  }
+
+  const submitMessage = () => {
+    if (input === "") {
+      return;
+    }
+    props.submitNewMessage(input);
+    setInput('');
+  }
+
+  return (
+    <div id="toDoApp">
+      <label id="toDoTitle" htmlFor="basic-input">
+        <h2 className="text-monospace">Add new things To Do:</h2>
+      </label>
+      <div id="toDoAdd" className="input-group">
+        <input id="basic-input" className="form-control" type="text"
+          placeholder="Thing to do"
+          value={input}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress} />
+        <div className="input-group-append">
+          <button className="btn btn-outline-primary"
+            onClick={submitMessage}>
+            Add
+          </button>
+        </div>
+      </div>
+      {props.messages.length > 0 ? (
+        <List
+          messages={props.messages}
+          editExistingMessage={props.editExistingMessage}
+          deleteExistingMessage={props.deleteExistingMessage}
+        />
+      ) :
+        <NoList />
+      }
+    </div>
+  );
+};
+
+interface ListProps {
+  messages: string[];
+  editExistingMessage: (index: number, message: string) => void;
+  deleteExistingMessage: (index: number) => void;
+}
+
+const List: FC<ListProps> = (props) => {
+  return (
+    <div id="toDoList">
+      <label htmlFor="basic-input">
+        <span className="text-monospace">Things to do:</span>
+      </label>
+      <div className="list-group">
+        {
+          props.messages.map((x, i) => {
+            let rand = Math.floor((Math.random() * 10000) + 1);
+            let key = "id" + i + "" + rand;
+            return (
+              <ListItem key={key} text={x} index={i}
+                edit={props.editExistingMessage}
+                delete={props.deleteExistingMessage} />
+            )
+          })
+        }
+      </div>
+    </div>
+  )
+}
+
+const NoList: FC = () => {
+  return (
+    <div id="toDoList" className="d-flex align-items-center justify-content-center">
+      <p className="text-muted text-monospace mt-5">
+        Your list is empty
+      </p>
+    </div>
+
+  )
+}
+
+interface ListItemProps {
+  text: string;
+  index: number;
+  edit: (index: number, message: string) => void;
+  delete: (index: number) => void;
+}
+
+class ListItem extends React.Component<ListItemProps> {
+  state = {
+    itemInput: this.props.text,
+  }
+
+  handleKeyPress = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === "Enter") {
+      this.editItem();
+    }
+  }
+
+  itemInputChange = (event: React.FormEvent<HTMLSpanElement>) => {
+    this.setState({
+      itemInput: event.currentTarget.textContent || ""
+    });
+  }
+
+  editItem = () => {
+    if (this.state.itemInput === "") {
+      this.setState({
+        itemInput: this.props.text
+      });
+      return;
+    }
+    this.props.edit(this.props.index, this.state.itemInput);
+  }
+
+  deleteItem = () => {
+    this.props.delete(this.props.index);
+  }
+
+  render() {
+    return (
+      <a
+        className="list-group-item list-group-item-action d-flex justify-content-between"
+        href="#" draggable={false}>
+        <span contentEditable={true}
+         
+          onInput={this.itemInputChange}
+          onKeyPress={this.handleKeyPress}>
+          {this.props.text}
+        </span>
+        <div className="btn-group btn-group-sm" role="group">
+          <button className="btn btn-primary" type="button"
+            onClick={this.editItem}>
+            Rename
+          </button>
+          <button className="btn btn-primary" type="button"
+            onClick={this.deleteItem}>
+            Delete
+          </button>
+        </div>
+      </a>
+    );
+  }
+}
+
+// React-Redux
+interface RootState {
+  messages: string[];
+}
+
+const mapStateToProps = (state: RootState) => {
+  let _state = localStorage.state ? localStorage.state : state;
+  return { messages: _state.messages }
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    submitNewMessage: (message: string) => {
+      dispatch(addMessage(message))
+    },
+    editExistingMessage: (index: number, message: string) => {
+      dispatch(editMessage(index, message))
+    },
+    deleteExistingMessage: (index: number) => {
+      dispatch(deleteMessage(index))
+    },
+  }
+};
+
+const ConnectedPresentational = connect(mapStateToProps, mapDispatchToProps)(Presentational);
+
+const  App: FC = () => {
+  return (
+    <Provider store={store}>
+      <ConnectedPresentational />
+    </Provider>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+export default App;
