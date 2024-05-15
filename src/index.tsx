@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { fetchUsers } from './app/features/users/usersSlice'
-import { store } from '../../my-app/src/app/store/store'
+import { store } from './app/store/store'
 //import { worker } from './api/server'
 async function start() {
 
