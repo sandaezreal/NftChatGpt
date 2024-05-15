@@ -10,7 +10,7 @@ import ChatInput from "./app/component/chatInput"
 import Chat from "./app/component/chat"
 import GPTLogo from "./app/component/gptLogo"
 import Main from "./app/component/dashboard"
-import { store } from '../../my-app/src/app/store/store'
+import { store } from './app/store/store'
 import { Provider, connect } from 'react-redux'
 import ChatHistory  from "./app/component/chatHistory"
 
