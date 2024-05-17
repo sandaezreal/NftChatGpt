@@ -386,7 +386,6 @@ const Home = () => {
   );
 }
 
-
 const AppWrapper: FC = () => {
   return (
 
