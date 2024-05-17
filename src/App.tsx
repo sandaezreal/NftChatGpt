@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Options from "./app/component/options"
 import Times from "./app/component/times"
 import StarIcon from "./app/component/starIcon"
@@ -381,6 +381,7 @@ const Home = () => {
   return (
     <Provider store={store}>
       <ConnectedPresentational />
+      asd
     </Provider>
   );
 }
@@ -390,7 +391,9 @@ const AppWrapper: FC = () => {
   return (
 
         <Router>
-          <Route path="/"  element={<Home />} />
+           <Routes>
+            <Route path="/" element={<Home />} />
+           </Routes>
       </Router>
   );
 };
