@@ -32,9 +32,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +53,13 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-router-dom": "^5.3.3",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.2",
+    "eslint-plugin-remix-react-routes": "^1.0.5",
     "@faker-js/faker": "^8.4.1",
     "@mswjs/data": "^0.16.1",
     "gh-pages": "^6.1.1",

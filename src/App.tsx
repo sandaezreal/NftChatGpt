@@ -1,6 +1,4 @@
 import React, { FC, useState } from 'react';
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Options from "./app/component/options"
 import Times from "./app/component/times"
 import StarIcon from "./app/component/starIcon"
@@ -377,27 +375,15 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const ConnectedPresentational = connect(mapStateToProps, mapDispatchToProps)(Presentational);
 
-const Home = () => {
-  return (
-    <Provider store={store}>
-      <ConnectedPresentational />
-      asd
-    </Provider>
-  );
-}
 
 const AppWrapper: FC = () => {
   return (
-
-        <Router>
-           <Routes>
-            <Route path="/" element={<Home />} />
-           </Routes>
-      </Router>
+    <Provider store={store}>
+      <ConnectedPresentational />
+    </Provider>
   );
 };
 
-// ReactDOM.render(<AppWrapper />, document.getElementById('root'));
 export default AppWrapper;
 
 
