@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import * as ReactDOM from 'react-dom';
+
+import { HashRouter as Router, Route } from 'react-router-dom';
 import Options from "./app/component/options"
 import Times from "./app/component/times"
 import StarIcon from "./app/component/starIcon"
@@ -376,16 +377,25 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const ConnectedPresentational = connect(mapStateToProps, mapDispatchToProps)(Presentational);
 
-
-const AppWrapper: FC = () => {
+const Home = () => {
   return (
     <Provider store={store}>
       <ConnectedPresentational />
     </Provider>
   );
+}
+
+
+const AppWrapper: FC = () => {
+  return (
+
+        <Router>
+          <Route path="/"  element={<Home />} />
+      </Router>
+  );
 };
 
-ReactDOM.render(<AppWrapper />, document.getElementById('root'));
+// ReactDOM.render(<AppWrapper />, document.getElementById('root'));
 export default AppWrapper;
 
 
