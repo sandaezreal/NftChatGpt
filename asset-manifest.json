@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/NftChatGpt/static/css/main.9bce0f2f.css",
-    "main.js": "/NftChatGpt/static/js/main.8c7dfa80.js",
-    "static/js/453.ed3810f9.chunk.js": "/NftChatGpt/static/js/453.ed3810f9.chunk.js",
-    "index.html": "/NftChatGpt/index.html",
-    "main.9bce0f2f.css.map": "/NftChatGpt/static/css/main.9bce0f2f.css.map",
-    "main.8c7dfa80.js.map": "/NftChatGpt/static/js/main.8c7dfa80.js.map",
-    "453.ed3810f9.chunk.js.map": "/NftChatGpt/static/js/453.ed3810f9.chunk.js.map"
+    "main.css": "/NftHunter/static/css/main.9bce0f2f.css",
+    "main.js": "/NftHunter/static/js/main.fca8df23.js",
+    "static/js/453.ed3810f9.chunk.js": "/NftHunter/static/js/453.ed3810f9.chunk.js",
+    "index.html": "/NftHunter/index.html",
+    "main.9bce0f2f.css.map": "/NftHunter/static/css/main.9bce0f2f.css.map",
+    "main.fca8df23.js.map": "/NftHunter/static/js/main.fca8df23.js.map",
+    "453.ed3810f9.chunk.js.map": "/NftHunter/static/js/453.ed3810f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9bce0f2f.css",
-    "static/js/main.8c7dfa80.js"
+    "static/js/main.fca8df23.js"
   ]
 }
